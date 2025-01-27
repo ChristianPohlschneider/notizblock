@@ -1,0 +1,24 @@
+.underline {
+    margin-top: 20px;
+    width: 80%;
+    background-color: rgb(239, 173, 52);
+    height: 2px;
+}
+
+.underlineNotes {
+    width: 100%;
+    background-color: rgb(239, 173, 52);
+    height: 2px;
+}
+
+.pDiv {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: rgb(34, 34, 34);
+    justify-content: space-between;
+}
+
+.dateDecoration {
+    color: rgb(239, 173, 52);
+}

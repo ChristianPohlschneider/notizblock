@@ -1,0 +1,30 @@
+.noteInput {
+    padding: 5px;
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    background-color: rgb(34, 34, 34);
+    border-radius: 15px;
+    margin-bottom: 16px;
+    border: 2px solid rgb(183, 183, 183);
+    
+}
+input {
+    color-scheme: dark;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgb(34, 34, 34) inset;
+    -webkit-text-fill-color: lightgrey;
+}
+
+.noteContent {
+    display: flex;
+    align-items: flex-start;
+    background-color: rgb(34, 34, 34);
+    padding: 20px;
+    border-radius: 25px;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 136px;
+}

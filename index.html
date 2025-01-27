@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pohltis To Do List</title>
+
+    <script src="./scripts/templates.js"></script>
+    <script src="./script.js"></script>
+    <script src="./scripts/date.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./styles/standard.css">
+    <link rel="stylesheet" href="./styles/assets.css">
+    <link rel="stylesheet" href="./styles/note.css">
+</head>
+
+<body onload="renderNotes(), getDate()">
+    <div class="mainDiv">
+        <h1>Pohltis To Do List</h1>
+        <div class="underline"></div>
+        <label for="note_option">Hier Notiz hinzufügen:</label>
+        <input class="noteInput width80vw" list="options" name="note_option" id="note_option" required="required"
+            placeholder="Option">
+        <p id="warning_one"></p>
+        <datalist id="options">
+            <option value="Aufgabe">
+            <option value="Termin">
+            <option value="Nicht vergessen">
+        </datalist>
+        <input class="noteInput width80vw" id="note_input" type="text" required="required" placeholder="Notiz">
+        <p id="warning_two"></p>
+        <input class="noteInput width80vw" type="date" id="date" />
+
+        <button onclick="saveNotesToLocalStorage()">Notiz speichern</button>
+
+        <div class="width80vw">
+            <h2>Notizen</h2>
+            <div class="noteContent" id="content"></div>
+        </div>
+
+        <div class="width80vw">
+            <h2>Trash</h2>
+            <div class="noteContent" id="trash_content"></div>
+        </div>
+
+        <div class="width80vw">
+            <h2>Archive</h2>
+            <div class="noteContent" id="archive_content"></div>
+        </div>
+    </div>
+</body>
+
+</html>

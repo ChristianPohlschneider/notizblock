@@ -1,0 +1,14 @@
+/* button styles */
+button {
+    padding: 10px;
+    border-radius: 15px;
+    border: 2px solid rgb(239, 173, 52);
+    background-color: rgb(8, 8, 8);
+    font-size: 20px;
+}
+
+.buttonDiv {
+    display: flex;
+    background-color: rgb(34, 34, 34);
+    gap: 16px;
+}
