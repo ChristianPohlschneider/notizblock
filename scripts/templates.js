@@ -1,15 +1,15 @@
 
 function getNotesTemplate(index) {
-    return `<div class="pDiv"><p>${noteOptions[index]}: ${notes[index]} am </p><p class="dateDecoration">${noteDate[index]}</p></div>
+    return `<div class="pDiv"><p>${allNotes.noteOptions[index]}: ${allNotes.note[index]} am </p><p class="dateDecoration">${allNotes.noteDate[index]}</p></div>
     <div class="buttonDiv">
-    <button onclick="transferToWaste(${index})">X</button>
+    <button onclick='moveNotes(${index}, "note", "trashNote")'>X</button>
     </div>
     <div class="underlineNotes"></div>
    `;
 }
 
 function getTrashNotesTemplate(index) {
-    return `<div class="pDiv"><p>${trashNoteOptions[index]}: ${trashNotes[index]} am </p><p class="dateDecoration">${trashNoteDate[index]}</p></div>
+    return `<div class="pDiv"><p>${allNotes.trashNoteOptions[index]}: ${allNotes.trashNote[index]} am </p><p class="dateDecoration">${allNotes.trashNoteDate[index]}</p></div>
     <div class="buttonDiv">
     <button onclick="deleteNote(${index})">X</button>
     <button onclick="transferToArchive(${index})">A</button>
@@ -20,7 +20,7 @@ function getTrashNotesTemplate(index) {
 }
 
 function getArchiveNotesTemplate(index) {
-    return `<div class="pDiv"><p>${archiveNoteOptions[index]}: ${archiveNotes[index]} am </p><p class="dateDecoration">${archiveNoteDate[index]}</p></div>
+    return `<div class="pDiv"><p>${allNotes.archiveNoteOptions[index]}: ${allNotes.archiveNote[index]} am </p><p class="dateDecoration">${allNotes.archiveNoteDate[index]}</p></div>
     <div class="buttonDiv">
     <button id="option1" value="2" onclick="transferBackToNotes(${index})">N</button>
     </div>
