@@ -17,6 +17,18 @@
 </head>
 
 <body onload="renderNotes(), getDate()">
+    <!--
+    Dateien hochladen:
+    git add .
+    git commit -m "first commit"
+    git push 
+
+    ".gitignore" Deatei in vs-code erstellen
+    zum anzeigen der Dateien: git status ins terminal eingeben
+    Dateien in .gitignore reinschreiben:
+    passwörter.txt
+    /node modules0,
+    -->
     <div class="mainDiv">
         <h1>Pohltis To Do List</h1>
         <div class="underline"></div>
@@ -42,12 +54,12 @@
 
         <div class="width80vw">
             <h2>Trash</h2>
-            <div class="noteContent" id="trash_content"></div>
+            <div class="noteContent" id="trashNote"></div>
         </div>
 
         <div class="width80vw">
             <h2>Archive</h2>
-            <div class="noteContent" id="archive_content"></div>
+            <div class="noteContent" id="archiveNote"></div>
         </div>
     </div>
 </body>

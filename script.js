@@ -1,14 +1,4 @@
 
-// let noteOptions = [];
-// let notes = [];
-// let noteDate = [];
-// let trashNoteOptions = [];
-// let trashNotes = [];
-// let trashNoteDate = [];
-// let archiveNotes = [];
-// let archiveNoteOptions = [];
-// let archiveNoteDate = [];
-
 let allNotes = {
     "noteOptions": [],
     "note": [],
@@ -40,12 +30,10 @@ function moveNotes(index, startKey, destinationKey) {
     renderNotes();
 }
 
-
 function renderNotes() {
     let contentRef = document.getElementById('content');
-    let archiveRef = document.getElementById('archive_content');
-    let trashContentRef = document.getElementById('trash_content');
-    let noteDateRef = document.getElementById('date');
+    let archiveRef = document.getElementById('archiveNote');
+    let trashContentRef = document.getElementById('trashNote');
     contentRef.innerHTML = "";
     archiveRef.innerHTML = "";
     trashContentRef.innerHTML = "";
@@ -54,16 +42,10 @@ function renderNotes() {
 
 function getNotesFromLocalStorage() {
     let contentRef = document.getElementById('content');
-    if (localStorage.getItem("note") == null) {
-        renderTrashNotes()
-        renderArchiveNotes()
-        return
-    }
-
-    else if (localStorage.getItem("noteDate") == null) {
-        renderTrashNotes()
-        renderArchiveNotes()
-        return
+    if (localStorage.getItem("note") == null || localStorage.getItem("noteDate") == null) {
+        renderXNotes("trashNote");
+        renderXNotes("archiveNote");
+        return;
     }
     else {
         allNotes.noteOptions = JSON.parse(localStorage.getItem("noteOptions"));
@@ -72,8 +54,8 @@ function getNotesFromLocalStorage() {
         for (let index = 0; index < allNotes.noteOptions.length; index++) {
             contentRef.innerHTML += getNotesTemplate(index);
         }
-        renderTrashNotes()
-        renderArchiveNotes()
+        renderXNotes("trashNote");
+        renderXNotes("archiveNote");
     }
 }
 
@@ -110,128 +92,40 @@ function saveNotesToLocalStorage() {
     }
 }
 
-function renderTrashNotes() {
-    let trashContentRef = document.getElementById('trash_content');
-    trashContentRef.innerHTML = "";
+function renderXNotes(xNote) {
+    let contentRef = document.getElementById(xNote);
+    contentRef.innerHTML = "";
 
-    if (localStorage.getItem("trashNote") == null || localStorage.getItem("trashNoteDate") == null) {
+    if (localStorage.getItem(xNote) == null || localStorage.getItem(xNote + "Date") == null) {
         return
     }
     else {
-        allNotes.trashNoteOptions = JSON.parse(localStorage.getItem("trashNoteOptions"));
-        allNotes.trashNote = JSON.parse(localStorage.getItem("trashNote"));
-        allNotes.trashNoteDate = JSON.parse(localStorage.getItem("trashNoteDate"));
+        allNotes[xNote] = JSON.parse(localStorage.getItem(xNote));
+        allNotes[xNote + "Options"] = JSON.parse(localStorage.getItem(xNote + "Options"));
+        allNotes[xNote + "Date"] = JSON.parse(localStorage.getItem(xNote + "Date"));
 
-        for (let index = 0; index < allNotes.trashNote.length; index++) {
-            trashContentRef.innerHTML += getTrashNotesTemplate(index);
+
+        if (xNote == "trashNote") {
+            for (let index = 0; index < allNotes.trashNote.length; index++) {
+                contentRef.innerHTML += getTrashNotesTemplate(index);
+            }
+        }
+        else {
+            for (let index = 0; index < allNotes.archiveNote.length; index++) {
+                contentRef.innerHTML += getArchiveNotesTemplate(index);
+            }
         }
     }
 }
 
-function transferToWaste(index) {
+function deleteNote(index, deleteKey) {
+    allNotes[deleteKey].splice(index, 1);
+    allNotes[deleteKey + "Options"].splice(index, 1);
+    allNotes[deleteKey + "Date"].splice(index, 1);
 
-    allNotes.trashNoteOptions.push(allNotes.noteOptions[index]);
-    allNotes.noteOptions.splice(index, 1);
-    localStorage.setItem("trashNoteOptions", JSON.stringify(trashNoteOptions));
-
-    trashNote.push(note[index]);
-    note.splice(index, 1);
-    localStorage.setItem("trashNote", JSON.stringify(trashNote));
-
-    trashNoteDate.push(noteDate[index]);
-    noteDate.splice(index, 1);
-    localStorage.setItem("trashNoteDate", JSON.stringify(trashNoteDate));
-
-    localStorage.setItem("noteOptions", JSON.stringify(noteOptions));
-    localStorage.setItem("note", JSON.stringify(note));
-    localStorage.setItem("noteDate", JSON.stringify(noteDate));
-
-    renderNotes();
-}
-
-function transferToArchive(index) {
-
-    archiveNote.push(trashNote[index]);
-    trashNote.splice(index, 1);
-    localStorage.setItem("archiveNote", JSON.stringify(archiveNote));
-
-    archiveNoteOptions.push(trashNoteOptions[index]);
-    trashNoteOptions.splice(index, 1);
-    localStorage.setItem("archiveNoteOptions", JSON.stringify(archiveNoteOptions));
-
-    archiveNoteDate.push(trashNoteDate[index]);
-    trashNoteDate.splice(index, 1);
-    localStorage.setItem("archiveNoteDate", JSON.stringify(archiveNoteDate));
-
-    localStorage.setItem("trashNote", JSON.stringify(trashNote));
-    localStorage.setItem("trashNoteOptions", JSON.stringify(trashNoteOptions));
-    localStorage.setItem("trashNoteDate", JSON.stringify(trashNoteDate));
-
-    renderNotes();
-}
-
-function renderArchiveNotes() {
-    let archiveContentRef = document.getElementById('archive_content');
-    if (localStorage.getItem("archiveNote") == null || localStorage.getItem("archiveNoteDate") == null) {
-        return
-    } else {
-
-        archiveContentRef.innerHTML = "";
-        allNotes.archiveNoteOptions = JSON.parse(localStorage.getItem("archiveNoteOptions"));
-        allNotes.archiveNote = JSON.parse(localStorage.getItem("archiveNote"));
-        allNotes.archiveNoteDate = JSON.parse(localStorage.getItem("archiveNoteDate"));
-        for (let index = 0; index < allNotes.archiveNote.length; index++) {
-            archiveContentRef.innerHTML += getArchiveNotesTemplate(index);
-        }
-    }
-}
-
-function transferBackToNotes(index) {
-    if (document.getElementById('option1').value == 1) {
-        noteOptions.push(trashNoteOptions[index]);
-        note.push(trashNote[index]);
-        noteDate.push(trashNoteDate[index]);
-
-        trashNoteOptions.splice(index, 1);
-        trashNote.splice(index, 1);
-        trashNoteDate.splice(index, 1);
-
-        localStorage.setItem("trashNoteOptions", JSON.stringify(trashNoteOptions));
-        localStorage.setItem("trashNote", JSON.stringify(trashNote));
-        localStorage.setItem("trashNoteDate", JSON.stringify(trashNoteDate));
-
-        localStorage.setItem("noteOptions", JSON.stringify(noteOptions));
-        localStorage.setItem("note", JSON.stringify(note));
-        localStorage.setItem("noteDate", JSON.stringify(noteDate));
-
-    } else {
-        noteOptions.push(archiveNoteOptions[index]);
-        note.push(archiveNotes[index]);
-        noteDate.push(archiveNoteDate[index]);
-
-        archiveNoteOptions.splice(index, 1);
-        archiveNote.splice(index, 1);
-        archiveNoteDate.splice(index, 1);
-
-        localStorage.setItem("archiveNoteOptions", JSON.stringify(archiveNoteOptions));
-        localStorage.setItem("archiveNote", JSON.stringify(archiveNote));
-        localStorage.setItem("archiveNoteDate", JSON.stringify(archiveNoteDate));
-
-        localStorage.setItem("noteOptions", JSON.stringify(noteOptions));
-        localStorage.setItem("notes", JSON.stringify(notes));
-        localStorage.setItem("noteDate", JSON.stringify(noteDate));
-    }
-    renderNotes()
-}
-
-function deleteNote(index) {
-    allNotes.trashNote.splice(index, 1);
-    allNotes.trashNoteOptions.splice(index, 1);
-    allNotes.trashNoteDate.splice(index, 1);
-
-    localStorage.setItem("trashNoteOptions", JSON.stringify(allNotes.trashNoteOptions));
-    localStorage.setItem("trashNote", JSON.stringify(allNotes.trashNote));
-    localStorage.setItem("trashNoteDate", JSON.stringify(allNotes.trashNoteDate));
+    localStorage.setItem(deleteKey, JSON.stringify(allNotes[deleteKey]));
+    localStorage.setItem(deleteKey + "Options", JSON.stringify(allNotes[deleteKey + "Options"]));
+    localStorage.setItem(deleteKey + "Date", JSON.stringify(allNotes[deleteKey + "Date"]));
 
     renderNotes();
 }
